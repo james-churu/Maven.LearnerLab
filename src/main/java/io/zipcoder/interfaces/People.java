@@ -3,17 +3,19 @@ package io.zipcoder.interfaces;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class People implements Iterable<Person> {
+public abstract class People<E extends Person> implements Iterable<E>{
 
-    ArrayList<Person> personList = new ArrayList<Person>();
+    ArrayList<E> personList = new ArrayList<E>();
 
 
-    public void add(Person person){
+    public void add(E person){
         this.personList.add(person);
     }
-    public Person findById(long id){
-        Person personToReturn = null;
-        for(Person person : personList){
+
+
+    public E findById(long id){
+        E personToReturn = null;
+        for(E person : personList){
             if(person.getID() == id){
                 personToReturn = person;
                 break;
@@ -21,14 +23,14 @@ public class People implements Iterable<Person> {
         }
         return personToReturn;
     }
-    public boolean contains(Person person){
+    public boolean contains(E person) {
         return personList.contains(person);
     }
-    public void remove(Person person){
+    public void remove(E person){
         personList.remove(person);
     }
     public void remove(long id){
-        Person personToRemove = findById(id);
+        E personToRemove = findById(id);
         personList.remove(personToRemove);
     }
     public void removeAll(){
@@ -37,20 +39,14 @@ public class People implements Iterable<Person> {
     public Integer count(){
         return personList.size();
     }
-    public Person[] toArray(){
+    public abstract E[] toArray();
 
-        Person[] personArray = new Person[personList.size()];
-        Integer index  = 0;
-        for(Person element : personList){
-            personArray[index] = element;
-            index++;
-        }
-        return personArray;
-
+    public ArrayList<E> getPersonList(){
+        return this.personList;
     }
-
-    public Iterator<Person> iterator() {
-        return null;
+    @Override
+    public Iterator<E> iterator() {
+        return personList.iterator();
     }
 
     // Iterator implemented methods
